@@ -1,0 +1,128 @@
+<div>
+  <div>
+    <div>
+      <div class="header position-relative m-auto">
+        <div class="m-auto navbar" >
+          <div class="d-flex justify-content-between m-auto " style="width: 98%;">
+            <div>              
+              <div class="px-1 py-1 menu-bar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><img  class="navbar-logo" src="/static/images/images.png" alt=""></div>
+
+
+            </div>
+            <div>
+              
+            </div>
+            <div class="d-flex justify-content-between">
+              {% if request.user.is_authenticated %}
+              {% comment %} <div class="mx-2">
+                <button type="button" class="btn btn-sm my-1 notification-btn position-relative">
+                  <span class="material-symbols-outlined text-light" style="width: 10px; height: 17px;">
+                    notifications_active
+                    </span>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    99+
+                    <span class="visually-hidden">unread messages</span>
+                  </span>
+                </button>
+              </div> {% endcomment %}
+              <a href="/register/logout/" class="btn btn-sm sign-btn mx-2 ff">Logout</a>
+              {% else %}
+              <a href="/register/login/" class="btn btn-sm login-btn mx-2 ff">Login</a>
+              <a href="/register/sign-up/" class="btn btn-sm sign-btn mx-2 ff">Sign Up</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- side bar model -->
+<div class="offcanvas offcanvas-start side-bar" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">VMEC</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="">
+    <div class="container-fluid">
+      <div class="class="collapse navbar-collapse" id="navbarSupportedContent"">
+        <div class="">
+          <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+            <li class="nav-item d-flex px-2">
+              <span class="material-symbols-outlined span-icon text-light mt-2">
+                home
+                </span>
+              <a class="nav-link px-2 ff" href="/">Home</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+            <li class="nav-item d-flex px-2">
+              <span class="material-symbols-outlined mt-2">
+                man
+                </span>
+              <a class="nav-link px-2 ff" href="/about/">About</a>
+            </li>
+          </ul>
+          {% if request.user.is_authenticated %}
+          <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+            <li class="nav-item d-flex px-2"> 
+              <span class="material-symbols-outlined mt-2">
+                person
+              </span>
+              <a class="nav-link px-2 ff" href="/edit-profile/{{request.user.id}}/">Profile</a>
+            </li>
+          </ul>
+          {% endif %}
+          <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+            <li class="nav-item d-flex px-2">
+              <span class="material-symbols-outlined mt-2">
+                menu_book
+                </span>
+              <a class="nav-link px-2 ff" href="/courses/">Courses</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+            <li class="nav-item dropdown d-flex px-2">
+              
+                <span class="material-symbols-outlined mt-2 ">
+                  video_library
+                  </span>
+              <a class="nav-link px-2 ff" href="/our-courses/class/">
+                Classes 
+              </a>
+            </li>
+          </ul>
+
+          
+          
+
+          
+        
+          
+        </div>
+      </div>
+       
+      
+      
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="chat-menu">
+  <div class="d-flex justify-content-end ">
+      <div class="chat-section">
+          <div>
+              <span class="text-light material-symbols-outlined" style="padding: 10px;">
+                  forum
+                  </span>
+          </div>
+      </div>
+  </div>
+</div>

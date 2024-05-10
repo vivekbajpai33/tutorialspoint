@@ -1,0 +1,85 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Signup {% endblock title %}
+
+
+{% block stylesheet %}{% endblock stylesheet %}
+
+{% block content %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="my-5 ff">
+    <div class="m-auto login-page">
+        <!-- <h4 class="text-center py-2">Login</h4> -->
+        <div class="row ">
+            <div class="col-lg-6 col-md-6 ">
+                <div class="signup-right">
+                    <div class="text-center py-2 pt-3">
+                        <img class="rounded-circle"" src="/static/images/images.jpeg" alt="">
+                    </div>
+                    <div class="text-center px-3">
+                        <h5 class="ff">Register your account</h5>
+                        <p class="signup-para">Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 ">
+                <div>
+                    <h4 class="text-center text-primary pt-4">Signup</h4>
+                </div>
+                <form action="" class="py-4 ff px-3" method="post">
+                    {% csrf_token %}
+                    <div class="input-data my-4">
+                        <input type="text" name="username" id="" required>
+                        <div class="underline"></div>
+                        <label for="">Name</label>
+                    </div>
+
+                    <div class="input-data my-4">
+                        <input type="email" name="email" id="" required>
+                        <div class="underline"></div>
+                        <label for="">Email</label>
+                    </div>
+
+                    <div class="input-data my-4">
+                        <input type="number" name="number" id="" required>
+                        <div class="underline"></div>
+                        <label for="">Phone Number</label>
+                    </div>
+
+                    <div class="input-data my-4">
+                        <input type="password" required name="password" id="">
+                        <div class="underline"></div>
+                        <label for="">password</label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-success text-light py-2 w-100">Signup</button>
+                    </div>
+
+                </form>
+                <div>
+                    <div class="ff px-3">
+                        <p>you have an account? <a href="/register/login/" class="text-primary">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}
+
+{% block externaljs %}{% endblock externaljs %}

@@ -1,0 +1,100 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - About {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+
+
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+
+<div>
+    <div>
+        <div class="w-75 m-auto">
+            <div class="py-5 ">
+                <div class="d-flex justify-content-between">
+                      <div>
+                        <h4 class="ff">Our Classes</h4>
+                      </div>
+                      {% comment %} <div>
+                        <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
+                      </div> {% endcomment %}
+                </div>
+                <div class="py-3">
+                    <div class="row justify-content-between">
+                        {% for item in data %}
+                            <div class="col-lg-5 video-box mx-1 my-2">
+                                <div>
+                                    <video controls class="class-video" id="myVideo">
+                                        <source src="/media/{{item.video}}" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div>
+                                    <p class="ff">{{item.title}}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+  
+<!-- upload video -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Video</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <form action="" method="POST">
+                <div class="my-4">
+                    <label for="" class="form-label ff">Select Course</label>
+                    <select class="form-control ff" name="courses" id="">
+                        {% for item in object %}
+                          <option value="{{item.id}}">{{item.subject_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="my-4">
+                    <label for="" class="form-label ff">Uplaod Video</label>
+                    <input type="file" class="form-control" name="video" accept="video" id="" required>
+                    <div class="underline"></div>
+                    
+                </div>
+                <div class="input-data my-4 ff">
+                    <input type="text" name="title" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Title</label>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success w-100 ff">Upload Video</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block externaljs %}{% endblock externaljs %}
