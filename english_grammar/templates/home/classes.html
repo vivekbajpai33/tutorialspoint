@@ -22,9 +22,9 @@
                       <div>
                         <h4 class="ff">Our Classes</h4>
                       </div>
-                      {% comment %} <div>
+                        <div>
                         <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
-                      </div> {% endcomment %}
+                      </div> 
                 </div>
                 <div class="py-3">
                     <div class="row justify-content-between">
@@ -32,7 +32,7 @@
                             <div class="col-lg-5 video-box mx-1 my-2">
                                 <div>
                                     <video controls class="class-video" id="myVideo">
-                                        <source src="/media/{{item.video}}" type="video/mp4">
+                                        <source src="/media/class_video/{{item.video}}" type="video/mp4">
                                     </video>
                                 </div>
                                 <div>
@@ -66,6 +66,7 @@
         <div class="modal-body">
           <div>
             <form action="" method="POST">
+              {% csrf_token %}
                 <div class="my-4">
                     <label for="" class="form-label ff">Select Course</label>
                     <select class="form-control ff" name="courses" id="">
@@ -85,6 +86,11 @@
                     <div class="underline"></div>
                     <label for="">Title</label>
                 </div>
+                <div class="input-data my-4 ff">
+                  <input type="text" name="title" id="" required>
+                  <div class="underline"></div>
+                  <label for="">Description</label>
+              </div>
                 <div>
                     <button type="submit" class="btn btn-success w-100 ff">Upload Video</button>
                 </div>
