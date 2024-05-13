@@ -39,10 +39,11 @@ class BlogStory(models.Model):
 
 
 class classes(models.Model):
-    courses = models.ForeignKey(courses, on_delete=models.CASCADE)
+    courses = models.ForeignKey(courses, on_delete=models.CASCADE, null=True, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
     video = models.FileField(upload_to='class_video', null=True, validators=[FileExtensionValidator(allowed_extensions=['MOV', 'mp4', 'webm', 'avi', 'mkv'])])
     title = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
 
 
