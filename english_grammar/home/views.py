@@ -60,7 +60,6 @@ def Videoclass(request):
     if request.method == 'POST':
         subject  = request.POST.get('courses')
         course = courses.objects.get(id=subject)
-        print(subject)        
         video = request.POST.get('video')
         title = request.POST.get('title')
         data = classes.objects.create(courses=course, video=video, title=title)
