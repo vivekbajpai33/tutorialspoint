@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
 
 # models
 from home.models import *
@@ -68,5 +69,14 @@ def Videoclass(request):
 
 
 
+def studentData(request):
+    student = User.objects.all()
+    return render(request, 'home/student-data.html', {'data':student})
+
+def DeleteStudent(reuqest,id):
+    student = User.objects.get(id=id)
+    student.delete()
+    return redirect('/our-courses/student-data/')
+    
 
 
