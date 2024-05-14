@@ -84,7 +84,6 @@
           </ul>
           <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
             <li class="nav-item dropdown d-flex px-2">
-              
                 <span class="material-symbols-outlined mt-2 ">
                   video_library
                   </span>
@@ -93,6 +92,27 @@
               </a>
             </li>
           </ul>
+          {% if request.user.is_superuser %}
+            <ul class="navbar-nav me-auto mb-2 my-1 mb-lg-0 active">
+              <li class="nav-item dropdown d-flex px-2">
+                <span>
+                  <span class="material-symbols-outlined mt-2">
+                    dataset
+                    </span>
+                </span>
+                <a class="nav-link dropdown-toggle px-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/our-courses/student-data/">Student Data</a></li>
+                  <li><a class="dropdown-item" href="#">Group Data</a></li>
+                  <li><a class="dropdown-item" href="#">Permission</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                </ul>
+              </li>
+            </ul>
+          {% endif %}
+          
 
           
           

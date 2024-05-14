@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
 
 # models
 from home.models import *
@@ -60,7 +61,6 @@ def Videoclass(request):
     if request.method == 'POST':
         subject  = request.POST.get('courses')
         course = courses.objects.get(id=subject)
-        print(subject)        
         video = request.POST.get('video')
         title = request.POST.get('title')
         data = classes.objects.create(courses=course, video=video, title=title)
@@ -69,5 +69,14 @@ def Videoclass(request):
 
 
 
+def studentData(request):
+    student = User.objects.all()
+    return render(request, 'home/student-data.html', {'data':student})
+
+def DeleteStudent(reuqest,id):
+    student = User.objects.get(id=id)
+    student.delete()
+    return redirect('/our-courses/student-data/')
+    
 
 
