@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 # models
 from home.models import *
@@ -71,7 +72,15 @@ def Videoclass(request):
 
 def studentData(request):
     student = User.objects.all()
-    return render(request, 'home/student-data.html', {'data':student})
+    user = request.user.groups.all()
+    print(user)
+    context = {
+        'data': student,
+        'groups' : Group.objects.all(),
+        'user_droup' : user
+        
+    }
+    return render(request, 'home/student-data.html', context)
 
 def DeleteStudent(reuqest,id):
     student = User.objects.get(id=id)

@@ -46,6 +46,7 @@
                       <th>Name</th>
                       <th>Email</th>
                       <th>Phone Number</th>
+                      <th>Groups</th>
                       <th>Action</th>
                     </tr>
                     {% for item in data %}
@@ -53,9 +54,25 @@
                       <td>{{item.username | default:"-"}}</td>
                       <td>{{item.email | default:"-"}}</td>
                       <td>{{item.first_name | default:"-"}}</td>
+                      {% if item.groups.all %}
+                      <td>
+                        <div class="d-flex justify-content-between">
+                              <div>
+                                {% for group in item.groups.all  %}
+                                  {{group.name}}
+                                {% endfor %}
+                              </div>
+                              <div>
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Group</button>
+                              </div>
+                        </div>
+                          
+                          
+                        
+                      </td>
+                      {% endif %}
                       <td>
                         <a href="/our-courses/student-data/delete/{{item.id}}" class="btn btn-sm btn-danger"> Delete</a>
-                        
                       </td>
                     </tr>
                     {% endfor %}
@@ -67,6 +84,37 @@
 </div>
 
 
+
+<!-- group pop-up -->
+
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">All Groups</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+            <select name="" class="form-control" id="">
+              <option value="----" >----</option>
+              {% for group in groups %}
+                <option value="{{group.id}}">{{group.name}}</option>
+              {% endfor %}  
+              
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
 
 {% endblock content %}
 
