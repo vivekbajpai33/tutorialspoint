@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 
-{% block title %}VMEC - About {% endblock title %}
+{% block title %}VMEC - Class {% endblock title %}
 
 {% block stylesheet %}
 
@@ -22,9 +22,11 @@
                       <div>
                         <h4 class="ff">Our Classes</h4>
                       </div>
-                        <div>
+                      {% if request.user.is_superuser %}
+                      <div>
                         <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
                       </div> 
+                      {% endif %}
                 </div>
                 <div class="py-3">
                     <div class="row justify-content-between">
@@ -70,6 +72,7 @@
                 <div class="my-4">
                     <label for="" class="form-label ff">Select Course</label>
                     <select class="form-control ff" name="courses" id="">
+                        <option value="">-----</option>
                         {% for item in object %}
                           <option value="{{item.id}}">{{item.subject_name}}</option>
                         {% endfor %}
@@ -78,8 +81,7 @@
                 <div class="my-4">
                     <label for="" class="form-label ff">Uplaod Video</label>
                     <input type="file" class="form-control" name="video" accept="video" id="" required>
-                    <div class="underline"></div>
-                    
+                    <div class="underline"></div>                    
                 </div>
                 <div class="input-data my-4 ff">
                     <input type="text" name="title" id="" required>
@@ -87,10 +89,10 @@
                     <label for="">Title</label>
                 </div>
                 <div class="input-data my-4 ff">
-                  <input type="text" name="title" id="" required>
+                  <input type="text" name="description" id="" required>
                   <div class="underline"></div>
                   <label for="">Description</label>
-              </div>
+                </div>
                 <div>
                     <button type="submit" class="btn btn-success w-100 ff">Upload Video</button>
                 </div>

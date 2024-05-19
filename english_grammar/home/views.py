@@ -53,7 +53,7 @@ def DeleteCourses(request, id):
 
 def Videoclass(request):
     video = classes.objects.all()
-    course = courses.objects.all()
+    course = Subject.objects.all()
     content = {
         'data':video,
         'object' : course
@@ -61,10 +61,11 @@ def Videoclass(request):
 
     if request.method == 'POST':
         subject  = request.POST.get('courses')
-        course = courses.objects.get(id=subject)
+        course = Subject.objects.get(id=subject)
         video = request.POST.get('video')
         title = request.POST.get('title')
-        data = classes.objects.create(courses=course, video=video, title=title)
+        description = request.POST.get('description')
+        data = classes.objects.create(courses=course, video=video, title=title, description=description)
         return render(request, 'home/classes.html', content)
     return render(request, 'home/classes.html', content)
 
@@ -77,9 +78,14 @@ def studentData(request):
     context = {
         'data': student,
         'groups' : Group.objects.all(),
-        'user_droup' : user
-        
+        'user_droup' : user   
     }
+    if request.method == 'POST':
+        user_group = request.user.groups.all()
+        group = request.POST.get('')
+        user_group = group
+        
+          
     return render(request, 'home/student-data.html', context)
 
 def DeleteStudent(reuqest,id):
