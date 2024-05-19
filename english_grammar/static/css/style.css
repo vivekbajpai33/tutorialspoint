@@ -590,3 +590,54 @@ textarea:valid ~ label {
     width: 100%;
     height: 280px;
 }
+
+/* captcha stuyle  */
+#id_captcha_1{
+    width: 100%;
+    padding: 7px 7px;
+    margin: 9px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#id_email { 
+    width: 100%;
+    padding: 7px 7px;
+    margin: 9px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#id_old_password{
+    width: 100%;
+    padding: 7px 7px;
+    margin: 9px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#id_new_password1{
+    width: 100%;
+    padding: 7px 7px;
+    margin: 9px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#id_new_password2 { 
+    width: 100%;
+    padding: 7px 7px;
+    margin: 9px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

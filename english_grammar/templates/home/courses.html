@@ -22,10 +22,12 @@
                     <div class="py-2 px-2">
                         <h4 class="ff">All Courses </h4>
                     </div>
+                    {% if request.user.is_superuser %}
                     <div>
                         <button type="button" class="btn btn-sm btn-primary ff" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Add +</button>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <div>
@@ -34,9 +36,9 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 my-2">
                         <div class="sub-box px-3 py-3">
                             <div>
-                                <h5 class="ff">{{object.subject_name}} &nbsp; <span
-                                        class="subject-code">#{{object.subject_code }}</span></h5>
-                                <p class="ff signup-para">{{object.description}}</p>
+                                <h5 class="ff">{{object.subjectname}} &nbsp;</h5>
+                                <h6 class="ff">{{object.title | slice:"0:50"}}...</h6>
+                                <p class="ff signup-para">{{object.description | slice:"0:"}}</p>
                                 {% if object.paid %}
                                 <div class="d-flex justify-content-between">
                                     <div>
@@ -76,7 +78,6 @@
                         </div>
                     </div>
                     {% endfor %}
-
                 </div>
             </div>
         </div>
@@ -101,15 +102,20 @@
                     <div>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <div class="input-data my-4 ff">
-                                <input type="text" name="subject_name" id="" required>
-                                <div class="underline"></div>
-                                <label for="">Subject Name</label>
+                            <div class="my-4 ff">
+                                <label for="" class="form-label ff">Subject Name</label>
+                                <select name="subject_name" class="form-control" id="">
+                                    <option value="">-----</option>
+                                    {% for item in subject %}
+                                      <option value="{{item.id}}">{{item.subject_name}}</option>
+                                    {% endfor %}
+                                </select>
+                                
                             </div>
                             <div class="input-data my-4 ff">
-                                <input type="text" name="subject_code" id="" required>
+                                <input type="text" name="title" id="" required>
                                 <div class="underline"></div>
-                                <label for="">Subject Code</label>
+                                <label for="">Title</label>
                             </div>
                             <div class="input-data ff my-5">
                                 <textarea name="description" id="" cols="30" rows="10" required></textarea>

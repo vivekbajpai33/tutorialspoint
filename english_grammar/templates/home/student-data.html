@@ -6,81 +6,100 @@
 {% block stylesheet %}
 
 <style>
+  #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
 
-    #customers {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-      
-      #customers td, #customers th {
-        border: 1px solid #ddd;
-        padding: 8px;
-      }
-      
-      #customers tr:nth-child(even){background-color: #f2f2f2;}
-      
-      #customers tr:hover {background-color: #ddd;}
-      
-      #customers th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #57534e;
-        color: white;
-      }
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
 
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #57534e;
+    color: white;
+  }
+
+  {% comment %} ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6d6d6d;
+  }
+  .student-table{
+    overflow: scroll;
+  } {% endcomment %}
 </style>
 
 {% endblock stylesheet %}
 
 {% block content %}
 
-
+<div>
+  {% for data in user_droup %}
+  <p>{{data.group.name}}</p>
+  {% endfor %}
+</div>
 <div class="w-100">
-    <div class="">
-        <div class="">
-              <div class="py-4 my-4 mx-2">
-                <table id="customers">
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Groups</th>
-                      <th>Action</th>
-                    </tr>
-                    {% for item in data %}
-                    <tr>
-                      <td>{{item.username | default:"-"}}</td>
-                      <td>{{item.email | default:"-"}}</td>
-                      <td>{{item.first_name | default:"-"}}</td>
-                      {% if item.groups.all %}
-                      <td>
-                        <div class="d-flex justify-content-between">
-                              <div>
-                                {% for group in item.groups.all  %}
-                                  {{group.name}}
-                                {% endfor %}
-                              </div>
-                              <div>
-                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Group</button>
-                              </div>
-                        </div>
-                          
-                          
-                        
-                      </td>
-                      {% endif %}
-                      <td>
-                        <a href="/our-courses/student-data/delete/{{item.id}}" class="btn btn-sm btn-danger"> Delete</a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </table>
-                  
+  <div class="py-4">
+    <div class="w-75 m-auto student-table">
+      <div class="py-4 my-4 mx-2">
+        <table id="customers">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Groups</th>
+            <th>Action</th>
+          </tr>
+          {% for item in data %}
+          <tr>
+            <td>{{item.username | default:"-"}}</td>
+            <td>{{item.email | default:"-"}}</td>
+            <td>{{item.first_name | default:"-"}}</td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <div>
+                  {% for group in item.groups.all %}
+                    {{group.name | default:"-"}}
+                  {% endfor %}
+                </div>
               </div>
-        </div>
+            </td>
+            <td>
+              <a href="/our-courses/student-data/delete/{{item.id}}" class="btn btn-sm btn-danger"> Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+
+      </div>
     </div>
+  </div>
 </div>
 
 
@@ -97,27 +116,27 @@
         </div>
         <div class="modal-body">
           <form action="" method="post">
-            <select name="" class="form-control" id="">
-              <option value="----" >----</option>
+            {% csrf_token %}
+            <select name="" class="form-control" id="" multiple>
+              <option value="----">----</option>
               {% for group in groups %}
-                <option value="{{group.id}}">{{group.name}}</option>
-              {% endfor %}  
-              
+              <option value="{{group.id}}">{{group.name}}</option>
+              {% endfor %}
+
             </select>
-          </form>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
-  
+
 </div>
 
 {% endblock content %}
 
 {% block externaljs %}{% endblock externaljs %}
-
-
