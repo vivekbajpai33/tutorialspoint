@@ -102,15 +102,19 @@
                     <div>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <div class="my-4 ff">
-                                <label for="" class="form-label ff">Subject Name</label>
-                                <select name="subject_name" class="form-control" id="">
-                                    <option value="">-----</option>
-                                    {% for item in subject %}
-                                      <option value="{{item.id}}">{{item.subject_name}}</option>
-                                    {% endfor %}
-                                </select>
-                                
+                            <div class="my-4 row ff">
+                               <div class="col-lg-11 col-md-11 col-sm-12">
+                                    <label for="" class="form-label ff">Subject Name</label>
+                                    <select name="subject_name" class="form-control" id="">
+                                        <option value="">-----</option>
+                                        {% for item in subject %}
+                                        <option value="{{item.id}}">{{item.subject_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                               </div>
+                               <div class="col-lg-1 col-md-1 col-sm-12 my-4 py-2 ff">
+                                <button class="btn btn-sm btn-primary"  data-bs-toggle="modal" data-bs-target="#addsubject" style="font-size: 18px; font-weight: 600;">+</button>
+                               </div>                                
                             </div>
                             <div class="input-data my-4 ff">
                                 <input type="text" name="title" id="" required>
@@ -145,6 +149,35 @@
     </div>
 </div>
 
+<!-- add subject modal -->
+<div class="modal-dialog modal-dialog-centered">
+    <<div class="modal fade" id="addsubject" tabindex="-1" aria-labelledby="addsubject" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-data my-4 ff">
+                    <input type="text" name="subject" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Subject</label>
+                </div>
+                <div class="input-data my-4 ff">
+                    <input type="text" name="subject_code" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Subject Code</label>
+                </div>
+                <button class="btn btn-sm btn-success">Add Subject</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
 
 
 {% endblock content %}

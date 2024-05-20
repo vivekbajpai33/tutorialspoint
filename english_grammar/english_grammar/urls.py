@@ -30,7 +30,9 @@ urlpatterns = [
     path('courses/', Courses, name='courses'),
     path('our-courses/', include('home.urls')),
     path('captcha/', include('captcha.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
+
 
 
 

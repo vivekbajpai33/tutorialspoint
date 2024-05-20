@@ -5,20 +5,25 @@ from django.contrib.auth.forms import PasswordResetForm,PasswordChangeForm
 # django messages
 from django.contrib import messages
 
-
 # import user model 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 # import login, logout 
 from django.contrib.auth import login, logout
 
-
 # login decoreter
 from django.contrib.auth.decorators import login_required
 
-
 # models 
 from home.models import courses,Subject
+
+# send mail
+from django.core.mail import send_mail
+from django.conf import settings
+
+# api view
+from rest_framework import viewsets
+from .serializers import UserSerializers
 
 
 
@@ -52,6 +57,13 @@ def signup(request):
            student = User.objects.create_user(username=username, email=email, first_name=number, password=password)
            user =  authenticate(request, username=username, password=password)
            login(request, user)
+           send_mail (
+            'Welcome In Vmec',  # subject,
+            f'Hello {username} welcome you ', #message,
+            'bajpaivivek878@gmail.com',  #kon send kar raha hai,
+            [email],#user (list me send karna hai like[email]),
+            fail_silently = False
+          )
            return redirect('/')
          else : 
           return redirect('/register/sign-up/')
@@ -93,8 +105,6 @@ def ChangePassword(request):
    else:
       return redirect('/')   
    
-      
-
 
 def Logout(request):
    logout(request)
@@ -132,10 +142,29 @@ def Courses(request):
    }
    if request.method == 'POST':
       subject_name = request.POST.get('subject_name')
+      subject = request.POST.get('subject')
+      subject_code = request.POST.get('subject_code')
+      if subject:
+         sub = Subject.objects.create(subject_name=subject, subject_code=subject_code)
+         sub.save()
+         return redirect('courses')
       courses_subject = Subject.objects.get(id=subject_name)
       title = request.POST.get('title')
       description = request.POST.get('description')
       paid = request.POST.get('paid')
       our_courses = courses.objects.create(subjectname=courses_subject, title=title , description=description, paid=paid)
-      return redirect('/')
+      return redirect('courses')
    return render(request, 'home/courses.html' , context)
+
+
+
+
+
+# create api view 
+
+class UserApiView(viewsets.ModelViewSet):
+   queryset = User.objects.all()
+   serializer_class = UserSerializers
+
+
+
