@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'authentication',
     'home',
     'captcha',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +133,25 @@ MEDIA_URL = "/media/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+# add rest framework api
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# django default email
+# LOGIN_URL = '/register/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bajpaivivek878@gmail.com'
+EMAIL_HOST_PASSWORD = 'pfzj wfni goeg wewg'
