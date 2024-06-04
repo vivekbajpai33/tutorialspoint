@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 @admin.register(Subject)
 class AllSubject(admin.ModelAdmin):
-    list_display =['subject_name']
+    list_display =['id','subject_name']
     search_fields = ['subject_name']
 
 
