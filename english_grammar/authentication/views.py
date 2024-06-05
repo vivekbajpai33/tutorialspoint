@@ -23,7 +23,13 @@ from django.conf import settings
 
 # api view
 from rest_framework import viewsets
-from .serializers import UserSerializers
+from .serializers import UserSerializers,CoursesSerializers,AddCoursesSerializers
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view
 
 
 
@@ -161,10 +167,70 @@ def Courses(request):
 
 
 # create api view 
-
 class UserApiView(viewsets.ModelViewSet):
    queryset = User.objects.all()
    serializer_class = UserSerializers
+
+
+class CoursesApiView(APIView):
+   # permission_classes = [AllowAny]
+   item = courses.objects.all()
+
+   def get(self, request):     
+     serializer = CoursesSerializers(self.item, many=True)
+     return Response(serializer.data, status=status.HTTP_200_OK)
+   
+class AddCoursesView(APIView):
+   def post(self, request):
+      serializer = AddCoursesSerializers(data=request.data)
+      if serializer.is_valid():
+         serializer.save()
+         return Response(serializer.data, status=status.HTTP_201_CREATED)
+      else:
+         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)   
+
+class EditCoursesApiView(APIView):
+
+    def get_object(self, pk):
+        return courses.objects.get(pk=pk)
+      
+
+    def get(self, request, pk):
+        item = self.get_object(pk)
+        serializer = CoursesSerializers(item)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        item = self.get_object(pk)
+        serializer = CoursesSerializers(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+   #  def patch(self, request, pk):
+   #      book = self.get_object(pk)
+   #      serializer = BookSerializer(book, data=request.data, partial=True)
+   #      if serializer.is_valid():
+   #          serializer.save()
+   #          return Response(serializer.data)
+   #      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+   #  def delete(self, request, pk):
+   #      item = self.get_object(pk)
+   #      item.delete()
+   #      return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DeleteCoursesApi(APIView):
+
+   def get_obj(self, pk):
+      return courses.objects.get(pk=pk)
+   
+   def delete(self, request, pk):
+      item = self.get_obj(pk)
+      item.delete()
+      return Response(status=status.HTTP_200_OK)
 
 
 

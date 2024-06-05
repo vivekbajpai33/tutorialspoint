@@ -10,6 +10,12 @@ from home.models import *
 from django.contrib.auth.decorators import login_required
 
 
+
+# api 
+
+
+
+
 # Create your views here.
 def home(request):
     course= courses.objects.all()
@@ -93,5 +99,8 @@ def DeleteStudent(reuqest,id):
     student.delete()
     return redirect('/our-courses/student-data/')
     
+
+
+
 
 
