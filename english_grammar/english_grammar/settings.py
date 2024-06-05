@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home',
     'captcha',
     'rest_framework',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [

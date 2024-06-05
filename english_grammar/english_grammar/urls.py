@@ -20,6 +20,12 @@ from home.views import home
 from authentication.views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+# api schema
+from rest_framework.schemas import get_schema_view
+# swagger 
+from rest_framework_swagger.views import get_swagger_view
+# from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +37,8 @@ urlpatterns = [
     path('our-courses/', include('home.urls')),
     path('captcha/', include('captcha.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('swagger-ui/',TemplateView.as_view(template_name="templates/home/swagger-ui.html",extra_context={"schema_url": "openapi-schema"},),name="swagger-ui",),
+    path('courses-schema/', get_schema_view(title="Courses Api",description="Api for the courses"), name='openapi-schema'),
 ]
 
 
