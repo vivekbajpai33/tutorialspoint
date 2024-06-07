@@ -16,5 +16,9 @@ urlpatterns = [
     path('delete/courses/<int:id>/', DeleteCourses, name='delete-courses'),
     path('class/', Videoclass, name='classes'),
     path('student-data/', studentData, name='user-data'),
-    path('student-data/delete/<int:id>/', DeleteStudent, name='delete-student')
+    path('student-data/delete/<int:id>/', DeleteStudent, name='delete-student'),
+    path('video-api/', VideoApi.as_view(), name='video'),
+    path('subject-api/', SubjectApiView, name='subject_api'),
+    path('student-query-api/', StudentqueryView, name='student_query'),
+    path('contact-api/', ContactView)
 ]
