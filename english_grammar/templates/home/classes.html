@@ -5,8 +5,9 @@
 {% block stylesheet %}
 
 <style>
-
-
+.underline::before{
+ position: relative;
+}
 </style>
 
 {% endblock stylesheet %}
@@ -18,29 +19,51 @@
     <div>
         <div class="w-75 m-auto">
             <div class="py-5 ">
-                <div class="d-flex justify-content-between">
-                      <div>
+                <div class="row">
+                      <div class="col-md-8 col-md-8 col-sm-12 my-1">
                         <h4 class="ff">Our Classes</h4>
                       </div>
-                      {% if request.user.is_superuser %}
-                      <div>
-                        <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
-                      </div> 
-                      {% endif %}
+                      
+                      <div class="col-md-4 col-md-4 col-sm-12 my-1 text-end">
+                        <div class="row">
+                          <div class="col-md-8 col-sm-12 my-1">
+                            <form action="" class="search-video d-flex justify-content-between" method="get">
+                              <div class="input-data ff">
+                                <input type="text" name="search-video" id="" required>
+                                <div class="underline"></div>
+                                <label for="">Search Video</label>
+                              </div>
+                              <div class="mx-1">
+                                  <input type="submit" class="btn btn-sm btn-primary">
+                              </div>
+                            </form>
+                          </div>
+                          {% if request.user.is_superuser %}
+                          <div class="col-md-4 col-sm-12 my-1">
+                            <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
+                          </div> 
+                          {% endif %}
+                        </div>
+                      </div>
+                     
+                      
+                      
                 </div>
                 <div class="py-3">
                     <div class="row justify-content-between">
                         {% for item in data %}
                             <div class="col-lg-5 video-box mx-1 my-2">
                                 <div>
-                                    <video controls class="class-video" id="myVideo">
-                                        <source src="/media/class_video/{{item.video}}" type="video/mp4">
+                                    <video controls poster="/media/{{item.thumbnail}}" class="class-video" id="myVideo">
+                                        <source src="/media/{{item.video}}" type="video/mp4">
                                     </video>
                                 </div>
                                 <div>
                                     <p class="ff">{{item.title}}</p>
                                 </div>
                             </div>
+                        {% empty %}    
+                          No Video Found 
                         {% endfor %}
             
                     </div>
@@ -83,6 +106,11 @@
                     <input type="file" class="form-control" name="video" accept="video" id="" required>
                     <div class="underline"></div>                    
                 </div>
+                <div class="my-4">
+                  <label for="" class="form-label ff">Uplaod Thumbnail</label>
+                  <input type="file" class="form-control" name="thumbnail" id="" required>
+                  <div class="underline"></div>                    
+              </div>
                 <div class="input-data my-4 ff">
                     <input type="text" name="title" id="" required>
                     <div class="underline"></div>

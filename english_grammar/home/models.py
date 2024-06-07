@@ -14,10 +14,13 @@ class Subject(models.Model):
 
 
 class courses(models.Model):
-    subjectname =  models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
+    subjectname =  models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     paid = models.BooleanField(null=True, blank=True, default=False)
+
+    class Meta:
+        ordering = ['subjectname']
 
 
 class StudentQuery(models.Model):
@@ -41,9 +44,10 @@ class BlogStory(models.Model):
 
 
 class classes(models.Model):
-    courses = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
+    courses = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    thumbnail = models.ImageField(upload_to="video_thumb" ,null=True, blank=True)
     upload_date = models.DateTimeField(default=timezone.now)
-    video = models.FileField(upload_to='class_video', null=True, validators=[FileExtensionValidator(allowed_extensions=['MOV', 'mp4', 'webm', 'avi', 'mkv'])])
+    video = models.FileField(upload_to='class_video', null=True, blank=True ,validators=[FileExtensionValidator(allowed_extensions=['MOV', 'mp4', 'webm', 'avi', 'mkv'])])
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     
