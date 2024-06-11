@@ -37,8 +37,8 @@
                         <div class="sub-box px-3 py-3">
                             <div>
                                 <h5 class="ff">{{object.subjectname}} &nbsp;</h5>
-                                <h6 class="ff">{{object.title | slice:"0:50"}}...</h6>
-                                <p class="ff signup-para">{{object.description | slice:"0:"}}</p>
+                                <h6 class="ff">{{object.title | slice:"0:50"}}</h6>
+                                <p class="ff signup-para">{{object.description | slice:"0:100"}}</p>
                                 {% if object.paid %}
                                 <div class="d-flex justify-content-between">
                                     <div>

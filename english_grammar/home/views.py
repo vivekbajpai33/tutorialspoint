@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required,permission_required
 
 # models
 from home.models import *
@@ -8,6 +9,7 @@ from home.models import *
 
 # login required
 from django.contrib.auth.decorators import login_required
+from authentication.views import login
 
 # api 
 from rest_framework.views import APIView
@@ -36,7 +38,7 @@ def home(request):
        return redirect('/')
     return render(request, "home/dashboard.html", content)
 
-
+@login_required
 def EditCourses(request, id):
     object =courses.objects.get(id=id)
     context = {
@@ -54,13 +56,14 @@ def EditCourses(request, id):
         return redirect('/courses/')
     return render(request, 'home/edit_courses.html' , context)
 
-
+@login_required
 def DeleteCourses(request, id):
     object = courses.objects.get(id=id)
     object.delete()
     return redirect('/courses/')
 
-
+@login_required
+# @permission_required("classes.view_classes")
 def Videoclass(request):
     video = classes.objects.all()
     course = Subject.objects.all()
@@ -80,15 +83,15 @@ def Videoclass(request):
     if request.method == 'POST':
         subject  = request.POST.get('courses')
         course = Subject.objects.get(id=subject)
-        video = request.POST.get('video')
+        video = request.FILES['video']
         title = request.POST.get('title')
         description = request.POST.get('description')
-        thumbnail = request.POST.get('thumbnail')
+        thumbnail = request.FILES['thumbnail']
         data = classes.objects.create(courses=course, video=video, title=title, description=description, thumbnail=thumbnail)
         return render(request, 'home/classes.html', content)
     return render(request, 'home/classes.html', content)
 
-
+@login_required
 def studentData(request):
     student = User.objects.all()
     user = request.user.groups.all()
@@ -106,6 +109,7 @@ def studentData(request):
           
     return render(request, 'home/student-data.html', context)
 
+@login_required
 def DeleteStudent(reuqest,id):
     student = User.objects.get(id=id)
     student.delete()

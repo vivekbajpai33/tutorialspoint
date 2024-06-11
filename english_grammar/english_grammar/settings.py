@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'captcha',
     'rest_framework',
     'rest_framework_swagger',
+    'django_userforeignkey',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +129,7 @@ STATICFILES_DIRS = [
 ]
 
 # add media
-MEDIA_ROOT = BASE_DIR /"media"
+MEDIA_ROOT =BASE_DIR /"media"
 
 MEDIA_URL = "/media/"
 
@@ -148,11 +150,11 @@ REST_FRAMEWORK = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django default email
-# LOGIN_URL = '/register/login/'
+LOGIN_URL = '/register/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'bajpaivivek878@gmail.com'
-
+EMAIL_HOST_PASSWORD = 'cidy mkmw tenq xqwl'

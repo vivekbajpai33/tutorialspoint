@@ -121,6 +121,7 @@ def about(request):
    return render(request, 'home/about.html')
 
 
+@login_required
 def profile_edit(request, id):
    user = User.objects.get(pk=id)
    context = {
@@ -138,7 +139,7 @@ def profile_edit(request, id):
       return redirect('/')
    return render(request, 'home/profile_page.html', context)
 
-
+@login_required
 def Courses(request):
    item = courses.objects.all()
    subject_data = Subject.objects.all()
