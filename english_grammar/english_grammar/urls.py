@@ -39,13 +39,13 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('swagger-ui/',TemplateView.as_view(template_name="templates/home/swagger-ui.html",extra_context={"schema_url": "openapi-schema"},),name="swagger-ui",),
     path('courses-schema/', get_schema_view(title="Courses Api",description="Api for the courses"), name='openapi-schema'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 
 
 
-# if settings.DEBUG:
-#     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
 
 
 

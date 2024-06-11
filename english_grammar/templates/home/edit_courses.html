@@ -21,18 +21,18 @@
             
             <div class="edit-courses ">
                 <div class="py-3">
-                    <h4 class="ff text-center text-primary">Here You can Update Our Courses</h4>
+                    <h4 class="ff text-center" style="color: #f97316;">Here You can Update Our Courses</h4>
                 </div>
                 <div class="py-2 px-5">
                     <form action="" method="post">
                         {% csrf_token %}
                         <div class="input-data my-4 ff">
-                            <input type="text" name="subject" value="{{data.subject_name}}" id="" required>
+                            <input type="text" name="subject" value="{{data.subjectname}}" id="" required>
                             <div class="underline"></div>
                             <label for="">Subject Name</label>
                         </div>
                         <div class="input-data my-4 ff">
-                            <input type="text" class="ff" name="code" value="{{data.subject_code}}"  id="" required>
+                            <input type="text" class="ff" name="code" value="{{data.subjectname.subject_code}}"  id="" required>
                             <div class="underline"></div>
                             <label for="">Subject Code</label>
                         </div>

@@ -38,10 +38,11 @@
                               </div>
                             </form>
                           </div>
-                          {% if request.user.is_superuser %}
-                          <div class="col-md-4 col-sm-12 my-1">
-                            <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
-                          </div> 
+                          {% comment %} <pre>{{perms.home.view_classes}}</pre> {% endcomment %}
+                          {% if perms.home.add_classes %}
+                            <div class="col-md-4 col-sm-12 my-1">
+                              <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
+                            </div> 
                           {% endif %}
                         </div>
                       </div>
@@ -90,7 +91,7 @@
         </div>
         <div class="modal-body">
           <div>
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
                 <div class="my-4">
                     <label for="" class="form-label ff">Select Course</label>
