@@ -1,0 +1,92 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Edit Video Class {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+
+
+
+
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+
+
+<div>
+    <div class="py-5">
+        <div class="w-75 m-auto">
+            
+            <div class="edit-courses">
+                <div class="py-3">
+                    <h4 class="ff text-center px-2" style="color: #f97316;">Here You can Update Our Class Video</h4>
+                </div>
+                <div class="py-2 px-5">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="my-4 ff">
+                            <label for="" class="form-label">Subject Name</label>
+                            <select name="cours" class="form-control" id="">
+                                <option value="{{object.courses.id}}">{{object.courses}}</option>
+                                {% for item in courses %}
+                                   <option value="{{item.id}}">{{item.subjectname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="input-data my-4 ff">
+                            <input type="text" name="title" value="{{object.title}}" id="" required>
+                            <div class="underline"></div>
+                            <label for="">Title</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <label for="" class="form-label">Update Thumbnail</label>
+                                <input type="file" class="form-control" required name="thumbnail" value="{{object.thumbnail}}" id="">
+                            </div>
+                            {% if object.thumbnail %}
+                            <div class="view-notes my-4 mx-2">
+                                <a href="/media/{{object.thumbnail}}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <label for="" class="form-label">Update Video</label>
+                                <input type="file" class="form-control" required name="video" value="/media/{{object.video}}" id="">
+                            </div>
+                            {% if object.video %}
+                            <div class="view-notes my-4 mx-2">
+                                <a href="/media/{{object.video}}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                       
+
+                        <div class="row justify-content-between my-2">
+                            <div class="col-lg-6 my-1">
+                                <a href="/our-courses/class/" class="btn btn-sm btn-secondary w-100 ff">Back</a>
+                            </div>
+                            <div class="col-lg-6 my-1">
+                                <button type="submit" class="btn btn-sm btn-success w-100 ff">Update</button>
+                            </div>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block externaljs %}{% endblock externaljs %}
