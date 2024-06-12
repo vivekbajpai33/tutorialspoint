@@ -30,10 +30,10 @@ class Subject(models.Model):
 
 
 class courses(models.Model):
-
     subjectname =  models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    notes = models.FileField(upload_to="notes/", null=True, blank=True, default=None)
     paid = models.BooleanField(null=True, blank=True, default=False)
 
     class Meta:
@@ -65,8 +65,7 @@ class classes(models.Model):
     thumbnail = models.ImageField(upload_to="videothumb/", null=True, blank=True, default=None)
     upload_date = models.DateTimeField(default=timezone.now)
     video = models.FileField(upload_to="classvideo/", null=True, blank=True ,validators=[FileExtensionValidator(allowed_extensions=['MOV', 'mp4', 'webm', 'avi', 'mkv'])])
-    title = models.CharField(max_length=200, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
+    title = models.CharField(max_length=200, null=True, blank=True)    
     
     # def __str__(self):
     #     return self.courses.subjectname   

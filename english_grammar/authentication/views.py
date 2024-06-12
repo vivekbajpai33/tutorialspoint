@@ -141,7 +141,7 @@ def profile_edit(request, id):
 
 @login_required
 def Courses(request):
-   item = courses.objects.all()
+   item = courses.objects.all().order_by('-id')
    subject_data = Subject.objects.all()
    context = {
       'data' : item,
@@ -151,16 +151,21 @@ def Courses(request):
       subject_name = request.POST.get('subject_name')
       subject = request.POST.get('subject')
       subject_code = request.POST.get('subject_code')
+      paid = request.POST.get('paid')
+      courses_subject = Subject.objects.get(id=subject_name)
+      description = request.POST.get('description')
+      title = request.POST.get('title')
+      Notes = request.FILES.get('notes')
       if subject:
          sub = Subject.objects.create(subject_name=subject, subject_code=subject_code)
          sub.save()
          return redirect('courses')
-      courses_subject = Subject.objects.get(id=subject_name)
-      title = request.POST.get('title')
-      description = request.POST.get('description')
-      paid = request.POST.get('paid')
-      our_courses = courses.objects.create(subjectname=courses_subject, title=title , description=description, paid=paid)
-      return redirect('courses')
+      elif Notes is not None:       
+         our_courses = courses.objects.create(subjectname=courses_subject, title=title , description=description, notes=Notes, paid=paid)
+         return redirect('courses')
+      else:
+         our_courses = courses.objects.create(subjectname=courses_subject, title=title , description=description, notes=None, paid=paid)
+         return redirect('courses')   
    return render(request, 'home/courses.html' , context)
 
 

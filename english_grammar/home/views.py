@@ -24,9 +24,9 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 def home(request):
-    course= courses.objects.all()
-    story = BlogStory.objects.all()
-    sutdent_query = StudentQuery.objects.all()
+    course= courses.objects.all().order_by('-id')[:4]
+    story = BlogStory.objects.all().order_by('-id')[:4]
+    sutdent_query = StudentQuery.objects.all().order_by('-id')[:4]
     content = {
         'courses':course,
         'story': story,
@@ -38,32 +38,41 @@ def home(request):
        return redirect('/')
     return render(request, "home/dashboard.html", content)
 
-@login_required
 def EditCourses(request, id):
-    object =courses.objects.get(id=id)
+    subject = Subject.objects.all()
+    cours =courses.objects.get(id=id)
     context = {
-        'data':object
+        'data':cours,
+        'subject':subject
     }
 
     if request.method == 'POST':
-        subject = request.POST.get('subject')
-        code = request.POST.get('code')
+        new_subject = request.POST.get('subject')
+        subject = Subject.objects.get(id=new_subject)
+        title = request.POST.get('title')
         description = request.POST.get('description')
-        object.subject_name = subject
-        object.subject_code = code
-        object.description = description
-        object.save()
+        notes = request.FILES.get('notes')
+        paid= request.POST.get('paid')
+        if notes is not None:
+            cours.notes = notes
+            cours.subjectname = subject
+            cours.description = description
+            cours.save()
+            return redirect('/courses/')
+        cours.subjectname = subject
+        cours.description = description
+        cours.title = title
+        cours.paid = paid
+        cours.save()
         return redirect('/courses/')
     return render(request, 'home/edit_courses.html' , context)
 
-@login_required
 def DeleteCourses(request, id):
     object = courses.objects.get(id=id)
     object.delete()
     return redirect('/courses/')
 
 @login_required
-# @permission_required("classes.view_classes")
 def Videoclass(request):
     video = classes.objects.all()
     course = Subject.objects.all()
@@ -91,7 +100,28 @@ def Videoclass(request):
         return render(request, 'home/classes.html', content)
     return render(request, 'home/classes.html', content)
 
-@login_required
+def Editclass(request, id):
+    data = classes.objects.get(id=id)
+    cours = courses.objects.all()
+    context = {
+        'object':data,
+        'courses':cours
+    }
+    if request.method == 'POST':
+        video_cours = request.POST.get('cours')
+        thumb = request.FILES.get('thumbnail')
+        video = request.FILES.get('video')
+        title = request.POST.get('title')
+        video_courses = Subject.objects.get(id=video_cours)
+        data.courses = video_courses
+        data.thumbnail = thumb
+        data.video = video
+        data.title = title
+        data.save()
+        return redirect('classes')
+    return render(request, 'home/edit_video_class.html', context)
+
+
 def studentData(request):
     student = User.objects.all()
     user = request.user.groups.all()
@@ -109,13 +139,18 @@ def studentData(request):
           
     return render(request, 'home/student-data.html', context)
 
-@login_required
 def DeleteStudent(reuqest,id):
     student = User.objects.get(id=id)
     student.delete()
     return redirect('/our-courses/student-data/')
     
+def deletevideo(request, id):
+    cours = classes.objects.get(id=id)
+    cours.delete()
+    return redirect('classes')
 
+
+# classed based api
 class VideoApi(APIView):
 
     def get(self, request):
@@ -154,7 +189,6 @@ def StudentqueryView(request):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET','POST'])
 def ContactView(request):

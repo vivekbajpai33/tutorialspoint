@@ -17,14 +17,14 @@
 
 <div>
     <div>
-        <div class="w-75 m-auto">
+        <div class="m-auto" style="width: 85%;">
             <div class="py-5 ">
                 <div class="row">
-                      <div class="col-md-8 col-md-8 col-sm-12 my-1">
+                      <div class="col-md-7 col-md-7 class-header col-sm-12 my-1">
                         <h4 class="ff">Our Classes</h4>
                       </div>
                       
-                      <div class="col-md-4 col-md-4 col-sm-12 my-1 text-end">
+                      <div class="col-md-5 col-md-5 pl-2 col-sm-12 my-1 search-upload-bar text-end" style="padding-right: 40px;">
                         <div class="row">
                           <div class="col-md-8 col-sm-12 my-1">
                             <form action="" class="search-video d-flex justify-content-between" method="get">
@@ -40,8 +40,8 @@
                           </div>
                           {% comment %} <pre>{{perms.home.view_classes}}</pre> {% endcomment %}
                           {% if perms.home.add_classes %}
-                            <div class="col-md-4 col-sm-12 my-1">
-                              <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload +</button>
+                            <div class="col-md-4 col-sm-12 my-1" style="padding-right: 35px;">
+                              <button class="btn btn-sm btn-success text-light ff" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload</button>
                             </div> 
                           {% endif %}
                         </div>
@@ -51,23 +51,35 @@
                       
                 </div>
                 <div class="py-3">
-                    <div class="row justify-content-between">
+                    <div class="container-box">
                         {% for item in data %}
-                            <div class="col-lg-5 video-box mx-1 my-2">
-                                <div>
-                                    <video controls poster="/media/{{item.thumbnail}}" class="class-video" id="myVideo">
+                            <div class="item">
+                                <div class="video-box">
+                                    <video controls controlsList="nodownload" poster="/media/{{item.thumbnail}}" class="class-video" style="border-radius: 2px;" id="myVideo">
                                         <source src="/media/{{item.video}}" type="video/mp4">
                                     </video>
                                 </div>
                                 <div>
-                                    <p class="ff">{{item.title}}</p>
+                                  <p class="pt-2 video-title">{{item.title |slice:"0:200"}}</p>
+                                  <div class="action d-flex justify-content-end">
+                                    <a href="/our-courses/edit/class-video/{{item.id}}/" class="btn btn-sm cr"><span class="material-symbols-outlined text-light bg-primary video-action-btn">
+                                      edit
+                                      </span></a>
+                                    <form action="/our-courses/delete-class/{{item.id}}/" method="get">
+                                      <button type="submit" class="btn btn-sm cr"><span class="material-symbols-outlined text-light bg-danger video-action-btn">
+                                        delete
+                                        </span></button>
+                                    </form>
+                                  </div>
+                                  <p class="text-end video-upload-date">{{item.upload_date}}</p>
                                 </div>
                             </div>
                         {% empty %}    
                           No Video Found 
                         {% endfor %}
             
-                    </div>
+                    </div> 
+                    
                 </div>
             </div>
         </div>
@@ -135,3 +147,4 @@
 {% endblock content %}
 
 {% block externaljs %}{% endblock externaljs %}
+

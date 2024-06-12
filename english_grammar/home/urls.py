@@ -20,5 +20,7 @@ urlpatterns = [
     path('video-api/', VideoApi.as_view(), name='video'),
     path('subject-api/', SubjectApiView, name='subject_api'),
     path('student-query-api/', StudentqueryView, name='student_query'),
-    path('contact-api/', ContactView)
+    path('contact-api/', ContactView),
+    path('delete-class/<int:id>/', deletevideo, name='delete-class'),
+    path('edit/class-video/<int:id>/', Editclass, name='editvideo')
 ]
