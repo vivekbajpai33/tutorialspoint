@@ -6,28 +6,87 @@
 
 <style>
 
+.underline::before{
+ position: relative;
+}
 
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
 </style>
 
 {% endblock stylesheet %}
 
 {% block content %}
 
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
 
 <div>
     <div>
         <div class="m-auto w-75 py-5">
             <div>
-                <div class="d-flex justify-content-between">
-                    <div class="py-2 px-2">
-                        <h4 class="ff">All Courses </h4>
-                    </div>
-                    {% if request.user.is_superuser %}
-                    <div>
-                        <button type="button" class="btn btn-sm btn-primary ff" data-bs-toggle="modal"
+                <div class="">
+                    <div class="row w-100">
+                        <div class="col-md-7 col-md-7 class-header col-sm-12 my-1">
+                          <h4 class="ff">All Courses</h4>
+                        </div>           
+                        <div class="col-md-5 col-md-5 pl-2 col-sm-12 my-1 search-upload-bar text-end">
+                          <div class="row">
+                            <div class="col-md-8 col-sm-12 my-1">
+                              <form action="" class="search-video d-flex justify-content-between" method="get">
+                                <div class="input-data ff">
+                                  <input type="text" name="search-cours" id="" required>
+                                  <div class="underline"></div>
+                                  <label for="">Search Courses</label>
+                                </div>
+                                <div class="mx-1">
+                                    <input type="submit" class="btn btn-sm btn-primary">
+                                </div>
+                              </form>
+                            </div>
+                            {% comment %} <pre>{{perms.home.view_classes}}</pre> {% endcomment %}
+                            {% if perms.home.add_courses %}
+                              <div class="col-md-4 col-sm-12 my-1">
+                                <button type="button" class="btn btn-sm btn-primary ff" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Add +</button>
-                    </div>
-                    {% endif %}
+                              </div> 
+                            {% endif %}
+                          </div>
+                        </div>
+                       
+                        
+                        
+                  </div>
                 </div>
             </div>
             <div>
@@ -36,43 +95,50 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 my-2">
                         <div class="sub-box px-3 py-3">
                             <div>
-                                <h5 class="ff">{{object.subjectname}} &nbsp;</h5>
-                                <h6 class="ff">{{object.title | slice:"0:50"}}</h6>
-                                <p class="ff signup-para">{{object.description | slice:"0:100"}}</p>
+                                <a style="text-decoration: none;" href="/our-courses/{{object.slug}}/" class="signup-para">                                
+                                <h5 class="ff cr">{{object.subjectname}} &nbsp;</h5>
+                                <h6 class="ff cr">{{object.title | slice:"0:50"}}</h6>
+                                <p class="ff cr signup-para">{{object.description | slice:"0:100"}}</p>
+                                </a>
                                 {% if object.paid %}
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <a class="btn-sm btn-primary btn ff text-light">Buy</a>
                                     </div>
                                     <div>
-                                        {% if request.user.is_staff %}
+                                        
                                     <div>
-                                        <a type="button" href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light">Edit</a>
-                                        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editcourses">
-                                            Launch demo modal
-                                          </button> -->
-                                        <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2">Delete</a>
+                                        {% if perms.home.change_courses %}
+                                         <a type="button" href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light">Edit</a>
+                                        {% endif %}
+                                        {% if perms.home.delete_courses %}
+                                         <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2">Delete</a>
+                                        {% endif %}     
                                     </div>
                                     
-                                   {% endif %}
+                                   
                                     </div>
                                 </div>
                                 
                                 {% else %}
                                 <div class="d-flex justify-content-between">
                                    <div>
-                                    <a class="btn-sm btn-primary btn ff text-light" href="">Video</a>
+                                    <a class="btn-sm btn-primary btn ff text-light" href="/our-courses/class/">Video</a>
                                     {% if object.notes %}
                                       <a href="/media/{{object.notes}}" download="{{object.title}}" class="btn-sm btn-success btn ff text-light">Download Notes</a>
                                     {% endif %}  
                                    </div>
-                                   {% if request.user.is_staff %}
+                                
                                     <div>
+                                        {% if perms.home.change_courses %}
                                         <a href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light ">Edit</a>
+                                        {% endif %}
+                                        {% if perms.home.delete_courses %}
                                         <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2 ">Delete</a>
+                                        {% endif %}
                                     </div>
                                     
-                                   {% endif %}
+                                   
                                    
                                 </div>
                                 {% endif %}
@@ -188,4 +254,22 @@
 
 {% endblock content %}
 
-{% block externaljs %}{% endblock externaljs %}
+{% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
+
+{% endblock externaljs %}

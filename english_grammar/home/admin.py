@@ -23,7 +23,7 @@ class Query(admin.ModelAdmin):
 
 @admin.register(Notification)
 class notification(admin.ModelAdmin):
-    list_display = ['notification']
+    list_display = ['notification', 'date']
     list_filter = ['notification', 'date'] 
     search_fields = ['date']
 

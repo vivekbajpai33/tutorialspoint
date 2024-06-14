@@ -22,5 +22,7 @@ urlpatterns = [
     path('student-query-api/', StudentqueryView, name='student_query'),
     path('contact-api/', ContactView),
     path('delete-class/<int:id>/', deletevideo, name='delete-class'),
-    path('edit/class-video/<int:id>/', Editclass, name='editvideo')
+    path('edit/class-video/<int:id>/', Editclass, name='editvideo'),
+    path('<slug:slug>/', get_cours, name='getcourses'),
+    path('edit-blog/<int:id>/', editblog, name='edit-blog'),
 ]

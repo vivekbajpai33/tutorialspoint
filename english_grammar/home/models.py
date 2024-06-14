@@ -5,6 +5,9 @@ from django.utils import timezone
 # import userforeignkey
 from django_userforeignkey.models.fields import UserForeignKey
 
+# import slugify 
+from django.utils.text import slugify
+
 class Trackable(models.Model):
     creted_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -35,6 +38,14 @@ class courses(models.Model):
     description = models.TextField(null=True, blank=True)
     notes = models.FileField(upload_to="notes/", null=True, blank=True, default=None)
     paid = models.BooleanField(null=True, blank=True, default=False)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(courses, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title    
 
     class Meta:
         ordering = ['subjectname']
@@ -56,8 +67,10 @@ class Notification(models.Model):
 
 class BlogStory(models.Model):
     title = models.CharField(max_length=100, null=True, blank=True)
-    story = models.CharField(max_length=100, null=True, blank=True)
+    story = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
+    story_pic = models.ImageField(upload_to="storypic/", null=True, blank=True)
+    upload_date = models.DateField(default=timezone.now)
 
 
 class classes(models.Model):

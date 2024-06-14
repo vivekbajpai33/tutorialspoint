@@ -1,0 +1,123 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Courses {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+
+.underline::before{
+ position: relative;
+}
+
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+<div>
+    <div class="w-100">
+        <div class="w-75 m-auto">
+            <div class="py-5">
+                <!-- <div class="profile-heading-box mx-3">
+                    <div class="m-auto py-1 " style="width: 40%;">
+                        <div class="">
+                             <h4 class="text-center text-light">{{item.subjectname}}</h4> 
+                        </div>
+                    </div>
+                </div> -->
+               
+                <div class="profile-update">
+                    <div class="py-3 px-5">
+                        <div>
+                            <h5 class="topic-btn signup-para">Subject</h5>
+                            <p>{{item.subjectname}}</p>
+                        </div>
+                        <div>
+                            <h5 class="topic-btn signup-para">Topic</h5>
+                            <p>{{item.title}}</p>
+                        </div>
+                        <div>
+                            <h5 class="topic-btn signup-para">Details</h5>
+                            <p>{{item.description}}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-12 my-1">
+                                <a href="/courses/" class="btn btn-sm btn-secondary" style="width: -webkit-fill-available;">Back</a>
+                            </div>
+                            {% if item.notes %}
+                            <div class="col-md-6 col-lg-6 col-sm-12 my-1">  
+                                <a href="/media/{{item.notes}}" download="{{item.subjectname}}" class="btn btn-sm btn-secondary" style="width: -webkit-fill-available;">Download Notes</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+{% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
+
+{% endblock externaljs %}
+
+
+
+

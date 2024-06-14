@@ -10,6 +10,30 @@
     position:static !important;
 }
 
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
 
 </style>
 
@@ -17,6 +41,15 @@
 
 {% block content %}
 
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
 
 
 <div>
@@ -70,7 +103,7 @@
                         <div class="d-flex justify-content-between">
                             <div class="my-3 ff">
                                 <label for="" class="up-notes-lb my-1">Upload Notes</label>
-                                <input type="file" class="form-control w-100" name="notes" value="/media/{{data.notes}}" class="form-control" id="">
+                                <input type="file" class="form-control w-100" name="notes" value="/media/{{data.notes}}" id="">
                             </div>
                             {% if data.notes %}
                             <div class="view-notes my-4 mx-2">
@@ -99,4 +132,22 @@
 
 {% endblock content %}
 
-{% block externaljs %}{% endblock externaljs %}
+{% block externaljs %} 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
+
+{% endblock externaljs %}

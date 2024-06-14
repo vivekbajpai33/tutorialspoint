@@ -1,0 +1,133 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Edit Blog {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+
+.up-notes-lb{
+    position:static !important;
+}
+
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
+
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+<div>
+    <div class="py-5">
+        <div class="w-75 m-auto">
+            
+            <div class="edit-courses">
+                <div class="py-3">
+                    <h4 class="ff text-center" style="color: #f97316;">Update Your Blog</h4>
+                </div>
+                <div class="py-2 px-5">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="input-data my-4 ff">
+                            <input type="text" name="title" value="{{blog.title}}" id="" required>
+                            <div class="underline"></div>
+                            <label for="">Blog Title</label>
+                        </div>
+                        <div class="input-data my-4 ff">
+                            <input type="text" name="story" value="{{blog.story}}" id="" required>
+                            <div class="underline"></div>
+                            <label for="">Blog Story</label>
+                        </div>
+                        <div class="input-data my-4 ff">
+                            <input type="text" class="ff" name="description" value="{{blog.description}}" id="" required>
+                            <div class="underline"></div>
+                            <label for="">Description</label>
+                        </div>                         
+
+                        <div class="d-flex justify-content-between">
+                            <div class="my-3 ff">
+                                <label for="" class="up-notes-lb my-1">Upload Story Picture</label>
+                                <input type="file" class="form-control w-100" name="notes" value="/media/{{blog.story_pic}}" id="">
+                            </div>
+                            {% if blog.story_pic %}
+                            <div class="view-notes my-4 mx-2">
+                                <a href="/media/{{blog.story_pic}}" target="_blank" class="btn btn-sm btn-primary">View</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                       
+
+                        <div class="row justify-content-between my-2">
+                            <div class="col-lg-6 my-1">
+                                <a href="{% url "blog" %}" class="btn btn-sm btn-secondary w-100 ff">Back</a>
+                            </div>
+                            <div class="col-lg-6 my-1">
+                                <button type="submit" class="btn btn-sm btn-success w-100 ff">Update</button>
+                            </div>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
+
+
+{% endblock externaljs %}
