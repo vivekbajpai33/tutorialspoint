@@ -1,0 +1,159 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Home {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+  .toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
+
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+<div>
+    <div>
+        <div class="w-75 m-auto">
+            <div>
+                <div class="py-5">
+                    <div class="text-end">
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addnotify">Add Notification</button>
+                    </div>
+                    <div class="row w-100 py-4">
+                        {% for item in notification %}
+                        <div class="col">
+                            <div class="blog px-2 py-1" style="border-radius: 10px;">
+                                {{item.notification}}
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-sm cr"  data-bs-toggle="modal" data-bs-target="#editnotify"><span
+                                        class="material-symbols-outlined text-light bg-primary video-action-btn">
+                                        edit
+                                      </span></button>
+                                    <form action="/register/delete-notification/{{item.id}}/" method="get">
+                                      <button type="submit" class="btn btn-sm cr"><span
+                                          class="material-symbols-outlined text-light bg-danger video-action-btn">
+                                          delete
+                                        </span></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="editnotify" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Update Notification</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form action="/register/edit-notification/{{item.id}}/" method="post">
+                                    {% csrf_token %}
+
+                                    <div class="input-data my-4">
+                                        <input type="text" name="notify" value="{{item.notification}}" id="" required>
+                                        <div class="underline"></div>
+                                        <label for="">Notification</label>
+                                    </div>
+                                    <div>
+                                        <input type="submit" class="btn-sm btn btn-success">
+                                    </div>
+                                  </form>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- add notification -->
+<div class="modal fade" id="addnotify" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Notification</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <div class="input-data my-4">
+                    <input type="text" name="notification" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Notification</label>
+                </div>
+                <div>
+                    <input type="submit" class="btn-sm btn btn-success">
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block externaljs %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+     var toasts = document.querySelectorAll('.toast');
+     toasts.forEach(function(toast) {
+         setTimeout(function() {
+             toast.classList.add('toast-show');
+         }, 100); // slight delay to trigger the animation
+
+         setTimeout(function() {
+             toast.classList.remove('toast-show');
+             toast.classList.add('toast-hide');
+         }, 10000); // hide after 10 seconds
+     });
+ }); 
+</script>
+
+{% endblock externaljs %}
+
+<!-- href="/register/edit-notification/{{item.id}}/" -->

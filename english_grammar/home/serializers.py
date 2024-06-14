@@ -10,7 +10,7 @@ class VideoSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = classes
-        fields = ['courses_obj', 'upload_date', 'video', 'title', 'description']
+        fields = ['courses_obj', 'upload_date', 'video', 'title']
 
 
 class SubjectSerializers(serializers.ModelSerializer):

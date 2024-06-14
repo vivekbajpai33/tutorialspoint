@@ -35,3 +35,17 @@ function ClosePopUp() {
 }
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    var toasts = document.querySelectorAll('.toast');
+    toasts.forEach(function(toast) {
+        setTimeout(function() {
+            toast.classList.add('toast-show');
+        }, 100); // slight delay to trigger the animation
+
+        setTimeout(function() {
+            toast.classList.remove('toast-show');
+            toast.classList.add('toast-hide');
+        }, 10000); // hide after 10 seconds
+    });
+});
+

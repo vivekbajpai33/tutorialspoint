@@ -700,3 +700,84 @@ textarea:valid ~ label {
 .cr{
     cursor: pointer;
 }
+
+.img-404{
+width: 100%;
+max-width: 400px;
+border-radius: 10px;
+box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.page-not-found{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topic-btn{
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
+    border-radius: 10px;
+    width: 100px;
+    text-align: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    /* background-image: linear-gradient(45deg, #df4881, #c430d7); */
+    /* color: #fff; */
+}
+
+.note-btn{
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.nt-btn{
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+}
+
+
+.center-box{
+    display: flex;
+    justify-content: center;
+}
+
+.story-pic{
+    width: 100%;
+    max-width: 300px;
+    height: 250px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.blog{
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+
+/* messages css */
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 50px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -300px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}

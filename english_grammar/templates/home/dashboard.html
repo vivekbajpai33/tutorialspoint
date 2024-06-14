@@ -6,6 +6,30 @@
 
 <style>
 
+    .toast {
+        color: #fff;
+        position: fixed;
+        top: 20px;
+        right: -300px; /* start off-screen */
+        min-width: 250px;
+        padding: 15px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        z-index: 1000;
+        transition: right 0.5s ease-in-out;
+        margin-top: 45px;
+    }
+    .toast-show {
+        right: 20px; /* move on-screen */
+    }
+    
+    .toast-hide {
+        right: -380px; /* move off-screen */
+    }
+    
+    .toast:not(.show){
+        display: block !important;
+    }
 
 </style>
 
@@ -13,6 +37,15 @@
 
 {% block content %}
 
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
 
 <!-- banner section -->
 <div class="banner-section">
@@ -25,6 +58,7 @@
                         voluptatem autem quasi rem recusandae
                     </p>
                     <a href="/courses/" class="join-btn anim" style="text-decoration: none;">Join Course</a>
+                    
                 </div>
                 <div class="card-slider-section my-5">
                     <div>
@@ -152,6 +186,7 @@
 </div>
 
 
+
 <!-- how you can join our journey section -->
 <div class="journey-section ff">    
     <div class="text-center journey-heading pt-4 ff">
@@ -260,6 +295,11 @@
         </div>
         <div class="m-auto" style="width: 85%;">
             <div class="py-5">
+                {% if courses %}
+                <div class="text-end mx-5">
+                    <a href="/courses/" class="" style="color: #d97706;">view all</a>
+                </div>
+                {% endif %}
                 <div class="row justify-content-center">
                  {% for item in courses %}
                     <div class="card mx-2 my-2 blog-card" style="width: 16rem;">
@@ -289,8 +329,13 @@
                 Blog And Success Story
             </h4>
         </div>
-        <div class="w-75 m-auto py-2">
-            <div class="row justify-content-center ">
+        <div class="m-auto py-2" style="width: 85%;">
+            {% if request.user.is_superuser %}
+            <div class="text-end mx-5">
+                <a href="/our-blog/" class="" style="color: #d97706;">view all</a>
+            </div>
+            {% endif %}
+            <div class="row justify-content-center w-100">
                 
                 {% for item in story  %}
 
@@ -375,7 +420,7 @@
 <!-- ask query pop up -->
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -399,8 +444,45 @@
              
           </div>
         </div>
-    </div>
+</div>
 
+
+<!-- notification bar -->
+{% comment %} <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width: 350px !important;">
+    <div class="offcanvas-header">
+      <div class="d-flex">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Notification</h5>
+        <button class="bg-primary note-btn mx-2"><span class="material-symbols-outlined text-light pt-1">
+          add
+          </span></button>
+      </div>
+  
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <hr>
+    <div class="offcanvas-body" style="width: 375px !important;">
+        {% for item in note %}
+        <div class="d-flex">
+        
+            <div class="alert alert-info" role="alert" style="width:-webkit-fill-available;">
+            <p class="nt-btn">{{item.notification}}</p>
+            <p class="video-upload-date text-end">{{item.date}}</p>
+            </div>
+            <div style="height: fit-content;">
+            <span class="material-symbols-outlined text-light video-action-btn bg-primary mx-1 my-1 cr">
+                edit
+            </span>
+            <span class="material-symbols-outlined text-light video-action-btn bg-danger mx-1 my-1 cr">
+                delete
+            </span>
+            </div>
+      
+    
+        </div>
+      {% endfor %}
+     
+    </div>
+</div> {% endcomment %}
 
 
 
@@ -408,6 +490,22 @@
 {% endblock content %}
 
 {% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
 
 
 {% endblock externaljs %}

@@ -34,36 +34,51 @@
     color: white;
   }
 
-  {% comment %} ::-webkit-scrollbar {
-    width: 8px;
-  }
+  .toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
 
-  ::-webkit-scrollbar-track {
-    background: #ffffff;
-  }
+.toast-hide {
+    right: -300px; /* move off-screen */
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6d6d6d;
-  }
-  .student-table{
-    overflow: scroll;
-  } {% endcomment %}
+.toast:not(.show){
+    display: block !important;
+}
 </style>
 
 {% endblock stylesheet %}
 
 {% block content %}
 
-<div>
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+{% comment %} <div>
   {% for data in user_droup %}
   <p>{{data.group.name}}</p>
   {% endfor %}
-</div>
+</div> {% endcomment %}
 <div class="w-100">
   <div class="py-4">
     <div class="w-75 m-auto student-table">
@@ -139,4 +154,23 @@
 
 {% endblock content %}
 
-{% block externaljs %}{% endblock externaljs %}
+{% block externaljs %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+     var toasts = document.querySelectorAll('.toast');
+     toasts.forEach(function(toast) {
+         setTimeout(function() {
+             toast.classList.add('toast-show');
+         }, 100); // slight delay to trigger the animation
+
+         setTimeout(function() {
+             toast.classList.remove('toast-show');
+             toast.classList.add('toast-hide');
+         }, 10000); // hide after 10 seconds
+     });
+ }); 
+</script>
+
+{% endblock externaljs %}
