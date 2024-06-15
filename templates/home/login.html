@@ -1,0 +1,134 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Login {% endblock title %}
+
+
+{% block stylesheet %}
+
+<style>
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+
+<div class="my-5 ff">
+    <div class="m-auto login-page">
+        <!-- <h4 class="text-center py-2">Login</h4> -->
+        <div class="row ">
+            <div class="col-lg-6 col-md-6 ">
+                <div class="login-page-letf">
+                    <div class="py-5 px-3">
+                        <div class="py-5 text-center">
+                            <p class="login-para">Nice to see you again</p>
+                            <h4 class="text-light text-center">WELCOME BACK</h4>
+                            <div class="d-flex justify-content-center">
+                                <span class="material-symbols-outlined text-light">
+                                    minimize
+                                </span>
+                                <span class="material-symbols-outlined text-light">
+                                    minimize
+                                </span>
+                            </div>
+                            <p class="text-light">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 ">
+                <div>
+                    <h4 class="text-center text-primary pt-4">Login Account</h4>
+                </div>
+                <form action="" class="py-4 ff px-3" method="post">
+                    {% csrf_token %}
+
+                    <div class="input-data my-4">
+                        <input type="text" name="username" id="" required>
+                        <div class="underline"></div>
+                        <label for="">Name</label>
+                    </div>
+
+                    <div class="input-data my-4">
+                        <input type="password" name="password" id="" required>
+                        <div class="underline"></div>
+                        <label for="">password</label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-primary w-100 text-light py-2">Login</button>
+                    </div>
+
+                </form>
+                <div class="d-flex justify-content-between">
+                    <div class="ff px-3">
+                        <p><a href="/register/sign-up/" class="text-primary">Signup</a></p>
+                    </div>
+                    <div class="ff px-3">
+                        <p><a href="{% url "password_reset" %}" class="text-primary">forgot password</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}
+
+{% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toasts = document.querySelectorAll('.toast');
+        toasts.forEach(function(toast) {
+            setTimeout(function() {
+                toast.classList.add('toast-show');
+            }, 100); // slight delay to trigger the animation
+
+            setTimeout(function() {
+                toast.classList.remove('toast-show');
+                toast.classList.add('toast-hide');
+            }, 10000); // hide after 10 seconds
+        });
+    }); 
+</script>
+
+{% endblock externaljs %}

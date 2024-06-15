@@ -1,0 +1,275 @@
+{% extends "layout/base.html" %}
+
+{% block title %}VMEC - Courses {% endblock title %}
+
+{% block stylesheet %}
+
+<style>
+
+.underline::before{
+ position: relative;
+}
+
+.toast {
+    color: #fff;
+    position: fixed;
+    top: 20px;
+    right: -300px; /* start off-screen */
+    min-width: 250px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+    margin-top: 45px;
+}
+.toast-show {
+    right: 20px; /* move on-screen */
+}
+
+.toast-hide {
+    right: -380px; /* move off-screen */
+}
+
+.toast:not(.show){
+    display: block !important;
+}
+</style>
+
+{% endblock stylesheet %}
+
+{% block content %}
+
+{% if messages %}
+    
+        {% for message in messages %}
+            <div class="bg-{{ message.tags }} toast ff">
+                {{ message }}
+            </div> 
+        {% endfor %}
+    
+{% endif %}
+
+
+<div>
+    <div>
+        <div class="m-auto w-75 py-5">
+            <div>
+                <div class="">
+                    <div class="row w-100">
+                        <div class="col-md-7 col-md-7 class-header col-sm-12 my-1">
+                          <h4 class="ff">All Courses</h4>
+                        </div>           
+                        <div class="col-md-5 col-md-5 pl-2 col-sm-12 my-1 search-upload-bar text-end">
+                          <div class="row">
+                            <div class="col-md-8 col-sm-12 my-1">
+                              <form action="" class="search-video d-flex justify-content-between" method="get">
+                                <div class="input-data ff">
+                                  <input type="text" name="search-cours" id="" required>
+                                  <div class="underline"></div>
+                                  <label for="">Search Courses</label>
+                                </div>
+                                <div class="mx-1">
+                                    <input type="submit" class="btn btn-sm btn-primary">
+                                </div>
+                              </form>
+                            </div>
+                            {% comment %} <pre>{{perms.home.view_classes}}</pre> {% endcomment %}
+                            {% if perms.home.add_courses %}
+                              <div class="col-md-4 col-sm-12 my-1">
+                                <button type="button" class="btn btn-sm btn-primary ff" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">Add +</button>
+                              </div> 
+                            {% endif %}
+                          </div>
+                        </div>
+                       
+                        
+                        
+                  </div>
+                </div>
+            </div>
+            <div>
+                <div class="row justify-content-between">
+                    {% for object in data %}
+                    <div class="col-lg-6 col-md-6 col-sm-12 my-2">
+                        <div class="sub-box px-3 py-3">
+                            <div>
+                                <a style="text-decoration: none;" href="/our-courses/{{object.slug}}/" class="signup-para">                                
+                                <h5 class="ff cr">{{object.subjectname}} &nbsp;</h5>
+                                <h6 class="ff cr">{{object.title | slice:"0:50"}}</h6>
+                                <p class="ff cr signup-para">{{object.description | slice:"0:100"}}</p>
+                                </a>
+                                {% if object.paid %}
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a class="btn-sm btn-primary btn ff text-light">Buy</a>
+                                    </div>
+                                    <div>
+                                        
+                                    <div>
+                                        {% if perms.home.change_courses %}
+                                         <a type="button" href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light">Edit</a>
+                                        {% endif %}
+                                        {% if perms.home.delete_courses %}
+                                         <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2">Delete</a>
+                                        {% endif %}     
+                                    </div>
+                                    
+                                   
+                                    </div>
+                                </div>
+                                
+                                {% else %}
+                                <div class="d-flex justify-content-between">
+                                   <div>
+                                    <a class="btn-sm btn-primary btn ff text-light" href="/our-courses/class/">Video</a>
+                                    {% if object.notes %}
+                                      <a href="/media/{{object.notes}}" download="{{object.title}}" class="btn-sm btn-success btn ff text-light">Download Notes</a>
+                                    {% endif %}  
+                                   </div>
+                                
+                                    <div>
+                                        {% if perms.home.change_courses %}
+                                        <a href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light ">Edit</a>
+                                        {% endif %}
+                                        {% if perms.home.delete_courses %}
+                                        <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2 ">Delete</a>
+                                        {% endif %}
+                                    </div>
+                                    
+                                   
+                                   
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- add courses popup -->
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 ff" id="exampleModalLabel">Add Courses</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="my-4 row ff">
+                               <div class="col-lg-11 col-md-11 col-sm-12">
+                                    <label for="" class="form-label ff">Subject Name</label>
+                                    <select name="subject_name" class="form-control" id="">
+                                        <option value="">-----</option>
+                                        {% for item in subject %}
+                                        <option value="{{item.id}}">{{item.subject_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                               </div>
+                               <div class="col-lg-1 col-md-1 col-sm-12 my-3 py-2 ff">
+                                <button class="btn btn-sm btn-primary"  data-bs-toggle="modal" data-bs-target="#addsubject" style="font-size: 18px; font-weight: 600;">+</button>
+                               </div>                                
+                            </div>
+                            <div class="input-data my-4 ff">
+                                <input type="text" name="title" id="" required>
+                                <div class="underline"></div>
+                                <label for="">Title</label>
+                            </div>
+                            <div class="input-data ff my-3">
+                                <textarea name="description" id="" cols="30" rows="10" required></textarea>
+                                <div class="underline"></div>
+                                <label for="">Description</label>
+                            </div>
+                            <div class="ff my-2">
+                                <label for="" class="form-label">Upload Notes</label>
+                                <input type="file" class="form-control" name="notes" id="">
+                            </div>
+                            <div class="d-flex ff">
+                                <div class="py-1 px-1">
+                                    <label for="">Paid</label>
+                                    <input type="radio" value="True" name="paid" id="">
+                                </div>
+                               <div class="py-1 px-2">
+                                 <label for="">Free</label>
+                                 <input type="radio" value="False" name="paid">
+                               </div>
+                               
+                            </div>
+
+                            <div class="py-2">
+                                <button type="submit" class="btn w-100 btn-sm btn-success ff">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add subject modal -->
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="addsubject" tabindex="-1" aria-labelledby="addsubject" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-data my-4 ff">
+                    <input type="text" name="subject" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Subject</label>
+                </div>
+                <div class="input-data my-4 ff">
+                    <input type="text" name="subject_code" id="" required>
+                    <div class="underline"></div>
+                    <label for="">Subject Code</label>
+                </div>
+                <button class="btn btn-sm btn-success">Add Subject</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+
+{% endblock content %}
+
+{% block externaljs %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+       var toasts = document.querySelectorAll('.toast');
+       toasts.forEach(function(toast) {
+           setTimeout(function() {
+               toast.classList.add('toast-show');
+           }, 100); // slight delay to trigger the animation
+
+           setTimeout(function() {
+               toast.classList.remove('toast-show');
+               toast.classList.add('toast-hide');
+           }, 10000); // hide after 10 seconds
+       });
+   }); 
+</script>
+
+{% endblock externaljs %}
