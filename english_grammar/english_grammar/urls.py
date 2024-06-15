@@ -52,10 +52,10 @@ urlpatterns = [
     path('our-blog/', blog, name='blog'),
 ]
 
-# handler404 = 'authentication.views.page_404'
+handler404 = 'authentication.views.page_404'
 
-# if settings.DEBUG:
-#     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
 
 # python manage.py collectstatic (after add first 2 line in url then run this command)
 
