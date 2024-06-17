@@ -109,10 +109,10 @@
                                         
                                     <div>
                                         {% if perms.home.change_courses %}
-                                         <a type="button" href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light">Edit</a>
+                                         <a type="button" href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light my-1">Edit</a>
                                         {% endif %}
                                         {% if perms.home.delete_courses %}
-                                         <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2">Delete</a>
+                                         <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2 my-1">Delete</a>
                                         {% endif %}     
                                     </div>
                                     
@@ -123,18 +123,18 @@
                                 {% else %}
                                 <div class="d-flex justify-content-between">
                                    <div>
-                                    <a class="btn-sm btn-primary btn ff text-light" href="/our-courses/class/">Video</a>
+                                    <a class="btn-sm btn-primary btn ff text-light my-1" href="/our-courses/class/">Video</a>
                                     {% if object.notes %}
-                                      <a href="/media/{{object.notes}}" download="{{object.title}}" class="btn-sm btn-success btn ff text-light">Download Notes</a>
+                                      <a href="/media/{{object.notes}}" download="{{object.title}}" class="btn-sm btn-success btn ff text-light my-1">Download Notes</a>
                                     {% endif %}  
                                    </div>
                                 
                                     <div>
                                         {% if perms.home.change_courses %}
-                                        <a href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light ">Edit</a>
+                                        <a href="/our-courses/edit/coursese/{{object.id}}/" class="btn-sm btn-secondary btn ff text-light my-1">Edit</a>
                                         {% endif %}
                                         {% if perms.home.delete_courses %}
-                                        <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2 ">Delete</a>
+                                        <a href="/our-courses/delete/courses/{{object.id}}/" class="btn-sm btn-danger btn ff text-light mx-2 my-1">Delete</a>
                                         {% endif %}
                                     </div>
                                     
